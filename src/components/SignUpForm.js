@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 class SignUpForm extends React.Component {
     state = {
@@ -13,17 +13,15 @@ class SignUpForm extends React.Component {
         this.setState( { [e.target.name]: e.target.value } )
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault()
-        let name = this.state.name
-        let username = this.state.username
-        let password = this.state.password
         fetch('http://localhost:3000/users', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
-            }, body: JSON.stringify(this.state)
+            },
+            body: JSON.stringify(this.state)
         })
         .then(res => res.json())
         .then(newUser => {
@@ -34,11 +32,10 @@ class SignUpForm extends React.Component {
                 password: ''
             })
         })
-        // this.props.history.push('/home')
+        this.props.history.push('/home')
     }
     
     render() {
-        console.log(this.state)
         return(
             <>
             <h1>Sign Up</h1>
@@ -48,10 +45,10 @@ class SignUpForm extends React.Component {
                 <input onChange={(e) => this.handleChange(e)} name="password" type="password" placeholder="Password" value={this.state.password}/>
                 <button type="submit">Submit</button>
             </form>
-            <p>Already have an account? <Link to="/login">Login</Link></p>
+            <p>Already have an account? <Link to="/login" onClick={() => this.props.alreadySignedUp()}>Login</Link></p>
             </>
         )
     }
 }
 
-export default SignUpForm
+export default withRouter(SignUpForm)

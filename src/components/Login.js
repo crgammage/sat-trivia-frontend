@@ -1,15 +1,25 @@
 import React, { useState } from 'react'
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
+import { connect } from 'redux' 
 
-function Login(props) {
-    let [loggedIn, setLoggedIn] = useState(false)
+class Login extends React.Component{
 
+    render() {
         return (
             <div>
-                {loggedIn ? <LoginForm onClick={() => setLoggedIn(!loggedIn)}/> : <SignUpForm handleNewUser={props.handleNewUser}/>}
+                <LoginForm 
+                users={this.props.users} 
+                handleLogin={this.props.handleLogin} 
+                /> : 
+                <SignUpForm 
+                alreadySignedUp={this.alreadySignedUp}
+                handleNewUser={this.props.handleNewUser}
+                />
             </div>
         )
+    }
+    
 }
 
-export default Login
+export default connect()(Login)
