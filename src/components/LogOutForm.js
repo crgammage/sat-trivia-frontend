@@ -1,12 +1,25 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import * as action from '../Reducers/actions'
+import { withRouter } from "react-router"
 
-function LogOutForm(props) {
+const LogOutForm = props => {
+    let { handleLogOut } = props
 
-    return(
-        <form onSubmit={(event) => props.handleLogOut()}>
-            <button type="submit">Logout</button>
-        </form>
-    )
+    const logOutClick = () => {
+        handleLogOut()
+        props.history.push('/')
+    }
+
+    return <button onClick={() => logOutClick()}>Logout</button>
+    
 }
 
-export default LogOutForm
+const mdp = dispatch => {
+    return {
+        handleLogOut: () => dispatch(action.handleLogOut())
+    }
+}
+
+
+export default withRouter(connect(null, mdp)(LogOutForm))

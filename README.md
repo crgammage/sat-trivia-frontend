@@ -67,3 +67,28 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 # sat-trivia-frontend
+
+
+App
+    Main Container
+        needs users
+        needs currentUser
+
+        GameContainer
+        needs questions
+        needs to create new game
+
+            Question Card
+            needs questions
+            Wheel
+
+        PlayerContainer
+            PlayerCard
+    
+    Login
+        state of logged in
+        LoginForm
+            action logged in
+
+        SignUpForm
+            action logged in

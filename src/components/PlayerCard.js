@@ -1,16 +1,23 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
 
-function PlayerCard(props) {
-    const {name, id, username, score, level } = props.currentUser
+const PlayerCard = props => {
+    let { currentUser } = props
     return (
         <>
             <h1>This is the Player Card</h1>
-            <p>Name: {name}</p>
-            <p>Username: {username}</p>
-            <p>Total Score: {score}</p>
-            <p>Level: {level}</p>
+            <p>Name: {currentUser.name}</p>
+            <p>Username: {currentUser.username}</p>
+            <p>Total Score: {currentUser.score}</p>
+            <p>Level: {currentUser.level}</p>
         </>
     )
 }
 
-export default PlayerCard
+const msp = state => {
+    return {
+        currentUser: state.currentUser
+    }
+}
+
+export default connect(msp, null)(PlayerCard)
