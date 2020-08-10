@@ -1,36 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import QuestionCard from './QuestionCard'
 import Wheel from './Wheel'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import * as action from '../Reducers/actions'
 
 const GameContainer = props => {
-    // let [questions, setQuestions] = useState([])
     let [gameQuestions, setGameQuestions] = useState([])
-    let { currentUser, questions, currentGame, handleNewGame, handleQuestions } = props
+    let { currentUser, currentGame, handleNewGame, questions} = props
     
-    useEffect(() => {
-        fetch('http://localhost:3000/questions')
-        .then(res => res.json())
-        .then(questions => {
-            handleQuestions(questions)
-        })
-    }, [])
-
-    const randomQuestions = questions => {
+    const randomQuestions = () => {
+        let questionsArray = questions
         let chosenQuestions = []
         let i = 0
-        while (i < 20) {
-            debugger
-        let selectedQuestion = questions[Math.floor(Math.random() * i)]
+        while (i < 20) { 
+        let selectedQuestion = questionsArray[Math.floor(Math.random() * 20)]
         chosenQuestions.push(selectedQuestion)
         i++
         }
-        setGameQuestions(chosenQuestions)
-        console.log(chosenQuestions)
+        createNewGame(chosenQuestions)
     }
 
-    const createNewGame = (questions, currentUser) => {
+    const createNewGame = (chosenQuestions) => {
         fetch('http://localhost:3000/games', {
             method: "POST",
             headers: {
@@ -38,20 +29,21 @@ const GameContainer = props => {
                 "Accept": "application/json"
             }, body: JSON.stringify( {
                 users: [currentUser],
-                questions: gameQuestions
+                questions: chosenQuestions
             } )
         }).then(res => res.json())
-        .then(data => {
-            console.log(data)
+        .then(newGame => {
+            handleNewGame(newGame)
+            console.log(newGame)
+        }).catch(error => {
+            console.log(error)
         })
+        props.history.push('/wheel')
     }
-        console.log(questions)
         return(
             <div>
-                <h1>This is the Game Container</h1>
+                <h1>Want to start a new game?</h1>
                 <button onClick={() => randomQuestions()}>New Game</button>
-                <QuestionCard />
-                <Wheel />
             </div>
         )
 }
@@ -67,9 +59,8 @@ const msp = state => {
 const mdp = dispatch => {
     return {
         handleNewGame: (newGame) => dispatch(action.handleNewGame(newGame)),
-        handleQuestions: (questions) => dispatch(action.handleQuestions(questions))
     }
 }
 
 
-export default connect(msp, mdp)(GameContainer)
+export default withRouter(connect(msp, mdp)(GameContainer))

@@ -6,25 +6,28 @@ import Login from './components/Login'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as action from './Reducers/actions'
-import LoginForm from './components/LoginForm'
+import GameContainer from './components/GameContainer'
+import Wheel from './components/Wheel';
+import QuestionCard from './components/QuestionCard';
+
 
 const App = props => {
-  let { renderUsers, handleLogin, users, currentUser, loggedIn, handleQuestions } = props
+  let { fetchUsers, handleLogin, users, currentUser, handleQuestions, fetchQuestions, questions } = props
 
   useEffect(() => {
-    fetch('http://localhost:3000/users')
-    .then(r => r.json())
-    .then(data => {
-      renderUsers(data)
-    })
+    fetchUsers()
+    fetchQuestions()
   }, [])
 
-console.log(props.currentUser)
+    console.log(currentUser)
     return (
       <>
       <Switch>
         <Route exact path="/home" component={MainContainer}/>
         <Route exact path="/" component={Login}/>
+        <Route exact path='/game' component={GameContainer}/>
+        <Route exact path='/wheel' component={Wheel}/>
+        <Route exact path='/question' component={QuestionCard}/>
       </Switch>
       </>
     );
@@ -34,15 +37,16 @@ const msp = state => {
   return {
     users: state.users,
     currentUser: state.currentUser,
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
+    questions: state.questions
   }
 }
 
 const mdp = dispatch => {
   return {
-    renderUsers: (users) => dispatch(action.renderUsers(users)),
-    handleNewUser: (newUser) => dispatch(action.handleNewUser(newUser))
-    
+    fetchUsers: () => dispatch(action.fetchUsers()),
+    handleNewUser: (newUser) => dispatch(action.handleNewUser(newUser)),
+    fetchQuestions: () => dispatch(action.fetchQuestions())
   }
 }
 

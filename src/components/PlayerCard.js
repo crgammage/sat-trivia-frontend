@@ -5,7 +5,7 @@ const PlayerCard = props => {
     let { currentUser } = props
     return (
         <>
-            <h1>This is the Player Card</h1>
+            <h1>Profile</h1>
             <p>Name: {currentUser.name}</p>
             <p>Username: {currentUser.username}</p>
             <p>Total Score: {currentUser.score}</p>

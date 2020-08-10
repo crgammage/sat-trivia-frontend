@@ -11,7 +11,6 @@ class MainContainer extends React.Component {
         let { users, currentUser } = this.props
         return (
             <div>
-                <h1>This is the Main Container</h1>
                 <PlayerContainer users={users} currentUser={currentUser}/>
                 <ScoreContainer />
                 <GameContainer currentUser={currentUser} />
