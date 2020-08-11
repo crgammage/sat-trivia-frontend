@@ -13,7 +13,7 @@ const GameContainer = props => {
         let questionsArray = questions
         let chosenQuestions = []
         let i = 0
-        while (i < 20) { 
+        while (i < 20) {
         let selectedQuestion = questionsArray[Math.floor(Math.random() * 20)]
         chosenQuestions.push(selectedQuestion)
         i++
@@ -34,12 +34,12 @@ const GameContainer = props => {
         }).then(res => res.json())
         .then(newGame => {
             handleNewGame(newGame)
-            console.log(newGame)
         }).catch(error => {
             console.log(error)
         })
         props.history.push('/wheel')
     }
+
         return(
             <div>
                 <h1>Want to start a new game?</h1>

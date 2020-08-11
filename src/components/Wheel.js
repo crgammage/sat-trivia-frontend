@@ -5,31 +5,33 @@ import QuestionCard from './QuestionCard'
 import { withRouter } from 'react-router-dom'
 
 const Wheel = props => {
-    let { currentUser, currentGame, handleCurrentQuestion } = props
-    let [ finishedQuestions, setFinishedQuestions ] = useState([])
+    let { currentGame, currentUser, handleCurrentQuestion, questionCompleted, completedQuestions, resetCompletedQuestions} = props
     
     const getQuestion = () => {
-
-        
-        if (finishedQuestions.length !== 20) {
+        if (completedQuestions < 20) {
             let questions = currentGame.questions
             let selectedQuestion = questions[Math.floor(Math.random() * questions.length)]
             handleCurrentQuestion(selectedQuestion)
-            setFinishedQuestions([...finishedQuestions, selectedQuestion])
+            questionCompleted()
             props.history.push('/question')
         }
-        else if (finishedQuestions.length === 20) {
-            alert("You're all out of questions!")
+        else if (completedQuestions === 20) {
+            alert('You have completed the game')
+            resetCompletedQuestions()
+            props.history.push('/home')
         }
+            
     }
+
 
     const backButton = () => {
         props.history.push('/home')
     }
+
     
-    console.log(finishedQuestions)
     return (
         <>
+        <h4>Score: {currentUser.score}</h4>
         <h1>Wheel</h1>
         <button onClick={() => getQuestion()}>Get Question</button>
         <button onClick={() => backButton()}>Back to Main Menu</button>
@@ -40,13 +42,17 @@ const Wheel = props => {
 const msp = state => {
     return {
         currentGame: state.currentGame,
-        currentUser: state.currentUser
+        currentUser: state.currentUser,
+        currentQuestion: state.currentQuestion,
+        completedQuestions: state.completedQuestions
     }
 }
 
 const mdp = dispatch => {
     return {
-        handleCurrentQuestion: (currentQuestion) => dispatch(action.handleCurrentQuestion(currentQuestion))
+        handleCurrentQuestion: (currentQuestion) => dispatch(action.handleCurrentQuestion(currentQuestion)),
+        questionCompleted: () => dispatch(action.questionCompleted()),
+        resetCompletedQuestions: () => dispatch(action.resetCompletedQuestions())
     }
 }
 

@@ -12,14 +12,14 @@ import QuestionCard from './components/QuestionCard';
 
 
 const App = props => {
-  let { fetchUsers, handleLogin, users, currentUser, handleQuestions, fetchQuestions, questions } = props
+  let { fetchUsers, handleLogin, users, currentUser, completedQuestions, fetchQuestions, questions, currentQuestion } = props
 
   useEffect(() => {
     fetchUsers()
     fetchQuestions()
   }, [])
 
-    console.log(currentUser)
+    console.log(currentUser, completedQuestions)
     return (
       <>
       <Switch>
@@ -38,7 +38,9 @@ const msp = state => {
     users: state.users,
     currentUser: state.currentUser,
     loggedIn: state.loggedIn,
-    questions: state.questions
+    questions: state.questions,
+    currentQuestion: state.currentQuestion,
+    completedQuestions: state.completedQuestions
   }
 }
 
