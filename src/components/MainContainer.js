@@ -5,19 +5,16 @@ import GameContainer from './GameContainer'
 import LogOutForm from './LogOutForm'
 import { connect } from 'react-redux'
 
-class MainContainer extends React.Component {
+const MainContainer = props => {
     
-    render() {
-        let { users, currentUser } = this.props
         return (
             <div>
-                <PlayerContainer users={users} currentUser={currentUser}/>
+                <PlayerContainer />
                 <ScoreContainer />
-                <GameContainer currentUser={currentUser} />
-                <LogOutForm handleLogOut={this.props.handleLogOut} />
+                <GameContainer  />
+                <LogOutForm />
             </div>
         )
-    }
 }
 
 const msp = state => {

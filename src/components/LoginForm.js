@@ -15,7 +15,8 @@ const LoginForm = (props) =>  {
         handleLogin(currentUser)
         props.history.push('/home')
     }  
-
+        
+        
         return (
             <>
             <h1>Login</h1>

@@ -7,7 +7,8 @@ const initialState = {
     currentGame: {},
     questions: [],
     currentQuestion: {},
-    completedQuestions: 0
+    completedQuestions: 0,
+    games: []
   }
 
 
@@ -25,12 +26,18 @@ const reducer = (prevState=initialState, action) => {
             return {...prevState, currentGame: action.payload.value}
         case 'FETCH_QUESTIONS':
             return {...prevState, questions: action.payload.value}
+        case 'FETCH_GAMES':
+            return {...prevState, games: action.payload.value}
         case 'NEXT_QUESTION':
             return {...prevState, currentQuestion: action.payload.value}
         case 'UPDATE_USER':
             let updatedUser = action.payload.value
             let newUsersArr = prevState.users.map(user => user.id === updatedUser.id ? updatedUser : user)
             return {...prevState, users: newUsersArr}
+        case 'UPDATE_GAMES':
+            let updatedGame = action.payload.value
+            let newGamesArr = prevState.games.map(game => game.id === updatedGame.id ? updatedGame : game)
+            return {...prevState, games: newGamesArr}
         case 'COMPLETED_QUESTIONS':
             return {...prevState, completedQuestions: prevState.completedQuestions + 1}
         case 'RESET_COMPLETED_QUESTIONS':

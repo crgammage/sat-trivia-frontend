@@ -6,8 +6,15 @@ import { withRouter } from 'react-router-dom'
 import * as action from '../Reducers/actions'
 
 const GameContainer = props => {
-    let [gameQuestions, setGameQuestions] = useState([])
-    let { currentUser, currentGame, handleNewGame, questions} = props
+    let [ opponent, setOpponent ] = useState('')
+    let [ opponentObj, setOpponentObj ] = useState(null)
+    let { currentUser, users, handleNewGame, questions, currentGame } = props
+
+    const selectOpponent = () => {
+        let selectedOpponent = opponent
+        let opponentObject = users.find(user => user.username === selectedOpponent)
+        setOpponentObj(opponentObject)
+    }
     
     const randomQuestions = () => {
         let questionsArray = questions
@@ -22,27 +29,57 @@ const GameContainer = props => {
     }
 
     const createNewGame = (chosenQuestions) => {
-        fetch('http://localhost:3000/games', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }, body: JSON.stringify( {
-                users: [currentUser],
-                questions: chosenQuestions
-            } )
-        }).then(res => res.json())
-        .then(newGame => {
-            handleNewGame(newGame)
-        }).catch(error => {
-            console.log(error)
-        })
+        let user = currentUser
+        let users = [currentUser, opponentObj]
+        if (opponentObj === null) {
+            fetch('http://localhost:3000/games', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }, body: JSON.stringify( {
+                    game: {
+                        user1: user,
+                        questions: chosenQuestions
+                    }
+                } )
+            }).then(res => res.json())
+            .then(newGame => {
+                handleNewGame(newGame)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+        else if (opponentObj !== null) {
+            fetch('http://localhost:3000/games', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }, body: JSON.stringify( {
+                    game: {
+                        user1s: currentUser,
+                        user2s: opponentObj,
+                        questions: chosenQuestions
+                    }
+                } )
+            }).then(res => res.json())
+            .then(newGame => {
+                handleNewGame(newGame)
+                console.log(newGame)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
         props.history.push('/wheel')
+        setOpponentObj(null)
     }
-
+        console.log(currentGame, opponentObj)
         return(
             <div>
                 <h1>Want to start a new game?</h1>
+                <input onChange={(e) => setOpponent(e.target.value)} name="opponent" type="text" placeholder="Search By Username" value={opponent}/>
+                <button onClick={() => selectOpponent()}>Add Opponent</button>
                 <button onClick={() => randomQuestions()}>New Game</button>
             </div>
         )
@@ -52,7 +89,8 @@ const msp = state => {
     return {
         currentGame: state.currentGame,
         currentUser: state.currentUser,
-        questions: state.questions
+        questions: state.questions,
+        users: state.users
     }
 }
 

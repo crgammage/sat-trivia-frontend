@@ -11,7 +11,6 @@ const Login = (props) => {
                 <LoginForm 
                 /> : 
                 <SignUpForm 
-                handleNewUser={handleNewUser}
                 />
             </div>
         )

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MainContainer from './components/MainContainer'
 import Login from './components/Login'
@@ -12,14 +11,15 @@ import QuestionCard from './components/QuestionCard';
 
 
 const App = props => {
-  let { fetchUsers, handleLogin, users, currentUser, completedQuestions, fetchQuestions, questions, currentQuestion } = props
+  let { fetchGames, fetchUsers, currentUser, fetchQuestions, currentGame, users } = props
 
   useEffect(() => {
     fetchUsers()
     fetchQuestions()
+    fetchGames()
   }, [])
 
-    console.log(currentUser, completedQuestions)
+  console.log(users, currentUser, currentGame)
     return (
       <>
       <Switch>
@@ -30,8 +30,9 @@ const App = props => {
         <Route exact path='/question' component={QuestionCard}/>
       </Switch>
       </>
-    );
+    )
 }
+
 
 const msp = state => {
   return {
@@ -40,7 +41,8 @@ const msp = state => {
     loggedIn: state.loggedIn,
     questions: state.questions,
     currentQuestion: state.currentQuestion,
-    completedQuestions: state.completedQuestions
+    completedQuestions: state.completedQuestions,
+    currentGame: state.currentGame
   }
 }
 
@@ -48,7 +50,8 @@ const mdp = dispatch => {
   return {
     fetchUsers: () => dispatch(action.fetchUsers()),
     handleNewUser: (newUser) => dispatch(action.handleNewUser(newUser)),
-    fetchQuestions: () => dispatch(action.fetchQuestions())
+    fetchQuestions: () => dispatch(action.fetchQuestions()),
+    fetchGames: () => dispatch(action.fetchGames())
   }
 }
 

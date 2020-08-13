@@ -3,10 +3,32 @@ import { connect } from 'react-redux'
 import * as action from '../Reducers/actions'
 
 const QuestionCard = props => {
-    let { currentQuestion, currentUser, updateUser, resetCurrentQuestion, handleLogin } = props
+    let { currentGame, handleNewGame, currentQuestion, currentUser, updateUser, updateGames, handleLogin } = props
 
     const backToWheel = () => {
         props.history.push('/wheel')
+    }
+
+    const updateGameTurn = () => {
+        let game = currentGame
+        fetch(`http://localhost:3000/games/${game.id}`, {
+            method: "PATCH",
+            headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                game: {
+                    player_1_turn: !game.player_1_turn
+                }
+            })
+        })
+        .then(res => res.json())
+        .then(updatedGame => {
+            console.log(updatedGame)
+            updateGames(updatedGame)
+            handleNewGame(updatedGame)
+        })
     }
 
     const selectAnswer = (e) => {
@@ -18,7 +40,9 @@ const QuestionCard = props => {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 }, body: JSON.stringify({
-                    score: newScore
+                    score: newScore,
+                    password: '',
+                    password_confirmation: ''
                 })
             }).then(res => res.json())
             .then(updatedUser => {
@@ -27,9 +51,11 @@ const QuestionCard = props => {
                 handleLogin(updatedUser)
                 props.history.push('/wheel')
                 })
+            updateGameTurn()
         }
         else if (e.target.innerText !== currentQuestion.answer) {
             alert('That is incorrect')
+            updateGameTurn()
             props.history.push('/wheel')
         }
     }
@@ -52,14 +78,17 @@ const msp = state => {
     return {
         currentQuestion: state.currentQuestion,
         currentUser: state.currentUser,
-        users: state.users
+        users: state.users,
+        currentGame: state.currentGame
     }
 }
 
 const mdp = dispatch => {
     return {
         updateUser: (updatedUser) => dispatch(action.updateUser(updatedUser)),
-        handleLogin: (updatedUser) => dispatch(action.handleLogin(updatedUser))
+        handleLogin: (updatedUser) => dispatch(action.handleLogin(updatedUser)),
+        handleNewGame: (updatedGame) => dispatch(action.handleNewGame(updatedGame)),
+        updateGames: (updatedGame) => dispatch(action.updateGames(updatedGame))
     }
 }
 
