@@ -24,6 +24,8 @@ let fetchGames = () => dispatch => {
         .then(games => dispatch({type: 'FETCH_GAMES', payload: {value: games} }))
 }
 
+let setToken = (token) => ( {type: 'SET_TOKEN', payload: { value: token }} )
+
 export {
     handleLogin,
     fetchUsers,
@@ -36,5 +38,6 @@ export {
     questionCompleted,
     resetCompletedQuestions,
     fetchGames,
-    updateGames
+    updateGames,
+    setToken
 }

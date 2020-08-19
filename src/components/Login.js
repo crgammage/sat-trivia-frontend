@@ -7,11 +7,9 @@ import * as action from '../Reducers/actions'
 const Login = (props) => {
     let { handleLogin, users, currentUser, handleNewUser } = props
         return (
-            <div>
-                <LoginForm 
-                /> : 
-                <SignUpForm 
-                />
+            <div className="login">
+                <h1>Crack the SAT</h1>
+                <SignUpForm />
             </div>
         )
     }

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  margin: auto;
+  font-size: calc(1vw + .4em)
 }
 
 .App-logo {
@@ -14,7 +16,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +36,122 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.login {
+  text-align: center;
+  font-family: 'Libre Baskerville', serif;
+  margin: auto;
+}
+
+.game-cards-title {
+  text-align: right;
+  margin-top: -250px;
+  margin-left: 800px;
+  height: auto;
+  min-height: 10px;
+  position: absolute;
+}
+
+.game-container {
+  text-align: left;
+  margin-top: 60px;
+}
+
+button#get-games {
+  margin: auto;
+  margin-right: 0px;
+}
+
+div#current-player-info {
+  text-align: left;
+}
+
+
+.myButton {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:.3em;
+	border:.1em solid #dcdcdc;
+	display: block;
+	cursor:pointer;
+	color:#3d3b3d;
+	font-family: 'Libre Baskerville', serif;
+	font-size:20px;
+	font-weight:bold;
+	font-style:italic;
+	padding:1px 24px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+  margin: auto;
+  margin-top: 10px;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+input {
+  font-family: 'Libre Baskerville', serif;
+  background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+  text-align: center;
+  padding:6px 24px;
+  margin-left: 10px;
+}
+
+.myButton-1 {
+  margin-top: 10px;
+  margin-left: 0px;
+}
+
+#logo {
+  text-align: center;
+}
+
+input#opponent-search {
+  margin: auto;
+}
+
+.wheel {
+  text-align: center;
+}
+
+h4.scores {
+  text-align: left;
+
+}
+
+img.logo {
+  text-align: center;
+  margin-left: 50px;
+}
+
+
+.myButton-2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.myButton-3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 550px;
+  position: fixed;
+}
+
+#logo {
+  margin-left: 350px; 
+  position: relative;
+}
+
+h3.answer-options:hover {
+  color: red;
 }

@@ -8,7 +8,7 @@ const SignUpForm = props => {
     let [name, setName] = useState('')
     let [username, setUsername] = useState('')
     let [password, setPassword] = useState('')
-    let {  handleNewUser} = props
+    let { setToken, handleNewUser, handleLogin } = props
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -25,30 +25,35 @@ const SignUpForm = props => {
             })
         })
         .then(res => res.json())
-        .then(newUser => {
-            handleNewUser(newUser)
+        .then(resp => {
+            handleNewUser(resp.user)
+            handleLogin(resp.user)
+            setToken(resp.token)
+            localStorage.token = resp.token
             })
         props.history.push('/home')
     }
     
         return(
-            <>
+            <div className="login">
             <h1>Sign Up</h1>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <input onChange={(e) => setName(e.target.value)} name="name" type="text" placeholder="Name" value={name}/>
                 <input onChange={(e) => setUsername(e.target.value)} name="username" type="text" placeholder="Username" value={username}/>
                 <input onChange={(e) => setPassword(e.target.value)} name="password" type="password" placeholder="Password" value={password}/>
-                <button type="submit">Submit</button>
+                <button type="Submit" className="myButton">Sign Up</button>
             </form>
-            <p>Already have an account? <Link to="/login" onClick={() => this.props.alreadySignedUp()}>Login</Link></p>
-            </>
+            <p>Already have an account? <Link to="/login">Login</Link></p>
+            </div>
         )
     
 }
 
 const mdp = dispatch => {
     return {
-        handleNewUser: (newUser) => dispatch(action.handleNewUser(newUser))
+        handleNewUser: (newUser) => dispatch(action.handleNewUser(newUser)),
+        handleLogin: (user) => dispatch(action.handleLogin(user)),
+        setToken: (token) => dispatch(action.setToken(token))
     }
 }
 

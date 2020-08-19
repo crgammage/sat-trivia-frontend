@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import QuestionCard from './QuestionCard'
-import Wheel from './Wheel'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as action from '../Reducers/actions'
@@ -13,7 +11,13 @@ const GameContainer = props => {
     const selectOpponent = () => {
         let selectedOpponent = opponent
         let opponentObject = users.find(user => user.username === selectedOpponent)
-        setOpponentObj(opponentObject)
+        if (opponentObject) {
+            console.log(opponentObject)
+            setOpponentObj(opponentObject)
+        }
+        else if (!opponentObject) {
+            alert('That is not a username in the database.')
+        }
     }
     
     const randomQuestions = () => {
@@ -74,13 +78,13 @@ const GameContainer = props => {
         props.history.push('/wheel')
         setOpponentObj(null)
     }
-        console.log(currentGame, opponentObj)
+        
         return(
-            <div>
+            <div className="game-container">
                 <h1>Want to start a new game?</h1>
-                <input onChange={(e) => setOpponent(e.target.value)} name="opponent" type="text" placeholder="Search By Username" value={opponent}/>
-                <button onClick={() => selectOpponent()}>Add Opponent</button>
-                <button onClick={() => randomQuestions()}>New Game</button>
+                <input id="opponent-search" onChange={(e) => setOpponent(e.target.value)} name="opponent" type="text" placeholder="Search By Username" value={opponent}/>
+                    <button id="add-opponent" className="myButton myButton-1 game-container" onClick={() => selectOpponent()}>Add Opponent</button>
+                    <button id="lets-play" className="myButton myButton-1" onClick={() => randomQuestions()}>Let's Play!</button>
             </div>
         )
 }

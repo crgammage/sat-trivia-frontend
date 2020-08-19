@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import * as action from '../Reducers/actions'
+import '../App.css'
 
 const QuestionCard = props => {
     let { currentGame, handleNewGame, currentQuestion, currentUser, updateUser, updateGames, handleLogin } = props
@@ -11,7 +12,8 @@ const QuestionCard = props => {
 
     const updateGameTurn = () => {
         let game = currentGame
-        fetch(`http://localhost:3000/games/${game.id}`, {
+        if (game.completedQuestions >= 20) {
+            fetch(`http://localhost:3000/games/${game.id}`, {
             method: "PATCH",
             headers: {
                     "Content-Type": "application/json",
@@ -19,7 +21,8 @@ const QuestionCard = props => {
             },
             body: JSON.stringify({
                 game: {
-                    player_1_turn: !game.player_1_turn
+                    player_1_turn: !game.player_1_turn,
+                    finished: true
                 }
             })
         })
@@ -29,6 +32,29 @@ const QuestionCard = props => {
             updateGames(updatedGame)
             handleNewGame(updatedGame)
         })
+        }
+        else if (game.completedQuestions < 20) {
+            fetch(`http://localhost:3000/games/${game.id}`, {
+            method: "PATCH",
+            headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                game: {
+                    player_1_turn: !game.player_1_turn,
+                    completedQuestions: game.completedQuestions + 1
+                }
+            })
+        })
+        .then(res => res.json())
+        .then(updatedGame => {
+            console.log(updatedGame)
+            updateGames(updatedGame)
+            handleNewGame(updatedGame)
+        })
+        }
+        
     }
 
     const selectAnswer = (e) => {
@@ -60,16 +86,28 @@ const QuestionCard = props => {
         }
     }
 
+    const upperCaseName = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     console.log(currentQuestion)
+    let gameUsers = [currentGame.user1s[0], currentGame.user2s[0]]
+    let opponent = gameUsers.find(user => user.id !== currentUser.id)
+    let opponentName = upperCaseName(opponent.name)
     return(
         <>
-        <h4>Score: {currentUser.score}</h4>
-        <h1>Question: {currentQuestion.prompt}</h1>
-        <p onClick={(e) => selectAnswer(e)}>{currentQuestion.a}</p>
-        <p onClick={(e) => selectAnswer(e)}>{currentQuestion.b}</p>
-        <p onClick={(e) => selectAnswer(e)}>{currentQuestion.c}</p>
-        <p onClick={(e) => selectAnswer(e)}>{currentQuestion.d}</p>
-        <button onClick={() => backToWheel()}>Back to Wheel</button>
+        <div>
+            <h4 className="scores">Your Score: {currentUser.score}</h4>
+            <h4 className="scores">{opponentName}'s Score: {opponent.score}</h4>
+            <h1>Question: {currentQuestion.prompt}</h1>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.a}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.b}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.c}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.d}</h3>
+        </div>
+        <div>
+            <button className="myButton myButton-2" onClick={() => backToWheel()}>Back to Wheel</button>
+        </div>
        </>
     )
 }
@@ -79,7 +117,7 @@ const msp = state => {
         currentQuestion: state.currentQuestion,
         currentUser: state.currentUser,
         users: state.users,
-        currentGame: state.currentGame
+        currentGame: state.currentGame,
     }
 }
 

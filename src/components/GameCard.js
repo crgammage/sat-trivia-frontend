@@ -5,7 +5,7 @@ import { withRouter } from "react-router"
 
 
 const GameCard = props => {
-    let { games, handleNewGame, completedQuestions, currentUser } = props
+    let { games, handleNewGame, currentUser } = props
 
     const resumeGame = () => {
         let id = props.id
@@ -16,31 +16,33 @@ const GameCard = props => {
 
     const currentUsersGames = () => {
         let gamesArr = games
-        if (currentUser.games) {
+        if (currentUser && currentUser.games) {
         let selectedGame = gamesArr.find(game => game.id === props.id)
         let users = [selectedGame.user1s[0], selectedGame.user2s[0]]
+        debugger
         let opponent = users.find(user => user.id !== currentUser.id)
         let time = new Date(props.updated_at)
         let timeString = time.toDateString()
+        let questionsLeft = 20 - selectedGame.completedQuestions
         return (
-            <>
-            <h3>Opponent: {opponent.name}</h3>
-            <h3>Last Updated: {timeString}</h3>
-            </>
+            <div className="game-cards">
+                <h3 onClick={() => resumeGame()}>Opponent: {opponent.name}</h3>
+                <h3 onClick={() => resumeGame()}>Last Updated: {timeString}</h3>
+                <h3 onClick={() => resumeGame()}>Questions Remaining: {questionsLeft}</h3>
+            </div>
         )
         }
         else {
-            return null
+            console.log('no games')
         }
-        
     }
 
-    console.log(completedQuestions)
     return(
         <>
         {props.finished ? null :
             <>
-                <h3 onClick={() => resumeGame()}>Game: </h3>
+                <h3>꘎♡━━━━━━━━━━━━━━━♡꘎</h3>
+                <h3 onClick={() => resumeGame()}>Game: {props.id}</h3>
             </>
         }
         {currentUsersGames()}

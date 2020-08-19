@@ -1,20 +1,21 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import PlayerContainer from './PlayerContainer'
-import ScoreContainer from './ScoreContainer'
 import GameContainer from './GameContainer'
 import LogOutForm from './LogOutForm'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const MainContainer = props => {
+    let { currentUser } = props
+
     
-        return (
-            <div>
-                <PlayerContainer />
-                <ScoreContainer />
-                <GameContainer  />
-                <LogOutForm />
-            </div>
-        )
+    return(
+        <div>
+            <PlayerContainer />
+            <GameContainer /> 
+        </div>
+    )
+            
 }
 
 const msp = state => {
@@ -24,4 +25,4 @@ const msp = state => {
     }
 }
 
-export default connect(msp, null)(MainContainer)
+export default withRouter(connect(msp, null)(MainContainer))

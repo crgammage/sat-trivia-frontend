@@ -7,38 +7,59 @@ import { withRouter } from "react-router"
 const LoginForm = (props) =>  {
     let [ username, setUsername ] = useState('')
     let [ password, setPassword ] = useState('')
-    let { handleLogin, users } = props
+    let { handleLogin, setToken } = props
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault()
-        let currentUser = users.find(user => user.username === username)
-        handleLogin(currentUser)
-        props.history.push('/home')
-    }  
+        fetch('http://localhost:3000/users/login', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify( {
+                username: username,
+                password: password,
+            } )
+        })
+        .then(r => r.json())
+        .then(resp => {
+            if (resp.message) {
+                alert(resp.message)
+            } else {
+                handleLogin(resp.user)
+                setToken(resp.token)
+                localStorage.token = resp.token
+                props.history.push('/home')
+            }
+        })
+    } 
         
-        
+    
         return (
-            <>
+            <div className="login">
             <h1>Login</h1>
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)} className="login">
                 <input onChange={(e) => setUsername(e.target.value)} name="username" type="text" placeholder="Username" value={username}/>
                 <input onChange={(e) => setPassword(e.target.value)} name="password" type="password" placeholder="Password" value={password}/>
-                <button type="submit">Submit</button>
+                <button type="Submit" className="myButton">Login</button>
             </form>
-            <p>Don't have an account? <Link to="/">Sign Up</Link></p>
-            </>
+            <p id="login-link">Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            </div>
         )
 }
 
 const msp = state => {
     return {
-        users: state.users
+        users: state.users,
+        currentUser: state.currentUser
     }
 }
 
 const mdp = dispatch => {
     return {
-        handleLogin: (user) => dispatch(action.handleLogin(user))
+        handleLogin: (user) => dispatch(action.handleLogin(user)),
+        setToken: (token) => dispatch(action.setToken(token))
     }
 }
 

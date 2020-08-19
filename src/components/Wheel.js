@@ -7,28 +7,16 @@ import { withRouter } from 'react-router-dom'
 const Wheel = props => {
     let { currentGame, handleNewGame, updateGames, currentUser, handleCurrentQuestion, questionCompleted, completedQuestions, resetCompletedQuestions} = props
     
-    const beginGame = () => {
-        let game = currentGame
-        if (game.player_1_turn === true) {
-            getQuestion()
-            }
-         else if (game.player_1_turn === false) {
-            alert("It is your opponent's turn. Please reload the page until they have completed their turn.")
-        }
-    }
-
 
     const getQuestion = () => {
-        if (completedQuestions < 20) {
+        if (currentGame.completedQuestions < 20) {
             let questions = currentGame.questions
             let selectedQuestion = questions[Math.floor(Math.random() * questions.length)]
             handleCurrentQuestion(selectedQuestion)
-            questionCompleted()
             props.history.push('/question')
         }
-        else if (completedQuestions === 20) {
+        else if (currentGame.completedQuestions >= 20) {
             alert('You have completed the game')
-            resetCompletedQuestions()
             finishGame()
             props.history.push('/home')
         }    
@@ -68,14 +56,60 @@ const Wheel = props => {
         })
     }
 
+
+const upperCaseName = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+    const flipUser = () => {
+        if (currentGame.user1s) {
+            let gameUsers = [currentGame.user1s[0], currentGame.user2s[0]]
+            let opponent = gameUsers.find(user => user.id !== currentUser.id)
+            let opponentName = upperCaseName(opponent.name)
+            if (currentUser.id === currentGame.user1s[0].id && currentGame.player_1_turn) {
+                return (
+                    <div className="wheel">
+                        <h3 className="scores">Your Score: {currentUser.score}</h3>
+                        <h3 className="scores">{opponentName}'s Score: {opponent.score}</h3>
+                            <img src={require('../images/challengebutton.png')} onClick={() => getQuestion()} alt="Click Here for your next Question"></img>
+                            <button className="myButton myButton-3" onClick={() => backButton()}>Back to Main Menu</button><br/>
+                    </div>
+                )
+            }
+            else if (currentUser.id === currentGame.user2s[0].id && !currentGame.player_1_turn) {
+                return (
+                    <div className="wheel">
+                        <h3 className="scores">Your Score: {currentUser.score}</h3>
+                        <h3 className="scores">{opponentName}'s Score: {opponent.score}</h3>
+                        <div className="wheel-buttons">
+                            <img src={require('../images/challengebutton.png')} onClick={() => getQuestion()} alt="Click Here for your next Question"></img>
+                            <button className="myButton myButton-3" onClick={() => backButton()}>Back to Main Menu</button><br/>
+                        </div>
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className="wheel">
+                        <h3 className="scores">Your Score: {currentUser.score}</h3>
+                        <h3 className="scores">{opponentName}'s Score: {opponent.score}</h3>
+                        <h2>It's {opponentName}'s Turn</h2>
+                        <p>Please click below to check if it is your turn.</p>
+                        <div className="wheel-buttons">
+                            <button className="myButton myButton-2" onClick={() => reloadGame()}>Reload</button><br/>
+                            <button className="myButton myButton-2" onClick={() => backButton()}>Back to Main Menu</button><br/>
+                        </div>
+                    </div>
+                )
+            }
+        }
+    }
+
     return (
-        <>
-        <h4>Score: {currentUser.score}</h4>
-        <h1>Wheel</h1>
-        <button onClick={() => beginGame()}>Get Question</button>
-        <button onClick={() => backButton()}>Back to Main Menu</button>
-        <button onClick={() => reloadGame()}>Reload</button>
-        </>
+        <div>
+            {flipUser()}
+        </div>
+        
     )
 }
 
@@ -84,15 +118,12 @@ const msp = state => {
         currentGame: state.currentGame,
         currentUser: state.currentUser,
         currentQuestion: state.currentQuestion,
-        completedQuestions: state.completedQuestions
     }
 }
 
 const mdp = dispatch => {
     return {
         handleCurrentQuestion: (currentQuestion) => dispatch(action.handleCurrentQuestion(currentQuestion)),
-        questionCompleted: () => dispatch(action.questionCompleted()),
-        resetCompletedQuestions: () => dispatch(action.resetCompletedQuestions()),
         handleNewGame: (updatedGame) => dispatch(action.handleNewGame(updatedGame)),
         updateGames: (updatedGame) => dispatch(action.updateGames(updatedGame))
     }

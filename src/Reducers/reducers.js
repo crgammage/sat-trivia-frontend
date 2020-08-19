@@ -8,7 +8,8 @@ const initialState = {
     questions: [],
     currentQuestion: {},
     completedQuestions: 0,
-    games: []
+    games: [],
+    token: ''
   }
 
 
@@ -42,6 +43,8 @@ const reducer = (prevState=initialState, action) => {
             return {...prevState, completedQuestions: prevState.completedQuestions + 1}
         case 'RESET_COMPLETED_QUESTIONS':
             return {...prevState, completedQuestions: 0}
+        case 'SET_TOKEN':
+            return {...prevState, token: action.payload.value}
         default:
             return prevState
     }
