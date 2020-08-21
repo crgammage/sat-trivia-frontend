@@ -25,11 +25,11 @@ const GameCard = props => {
         let timeString = time.toDateString()
         let questionsLeft = 20 - selectedGame.completedQuestions
         return (
-            <div className="game-cards">
+            <>
                 <h3 onClick={() => resumeGame()}>Opponent: {opponent.name}</h3>
                 <h3 onClick={() => resumeGame()}>Last Updated: {timeString}</h3>
                 <h3 onClick={() => resumeGame()}>Questions Remaining: {questionsLeft}</h3>
-            </div>
+            </>
         )
         }
         else {
@@ -39,13 +39,13 @@ const GameCard = props => {
 
     return(
         <>
+        <h3>꘎♡━━━━━━━━━━━━━━━♡꘎</h3>
+        <div className="game-cards">
         {props.finished ? null :
-            <>
-                <h3>꘎♡━━━━━━━━━━━━━━━♡꘎</h3>
                 <h3 onClick={() => resumeGame()}>Game: {props.id}</h3>
-            </>
         }
         {currentUsersGames()}
+        </div>
        </>
     )
 }
