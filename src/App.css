@@ -53,6 +53,10 @@
   position: absolute;
 }
 
+.game-cards:hover {
+  color: red;
+}
+
 .game-container {
   text-align: left;
   margin-top: 60px;
@@ -155,3 +159,12 @@ img.logo {
 h3.answer-options:hover {
   color: red;
 }
+
+h3#question-card-player-score {
+  text-align: center;
+}
+
+h3#question-card-opponent-score {
+  text-align: center;
+}
+

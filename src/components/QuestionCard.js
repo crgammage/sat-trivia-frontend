@@ -4,7 +4,13 @@ import * as action from '../Reducers/actions'
 import '../App.css'
 
 const QuestionCard = props => {
-    let { currentGame, handleNewGame, currentQuestion, currentUser, updateUser, updateGames, handleLogin } = props
+    let { currentGame,
+        handleNewGame,
+        currentQuestion,
+        currentUser,
+        updateUser,
+        updateGames,
+        handleLogin } = props
 
     const backToWheel = () => {
         props.history.push('/wheel')
@@ -90,20 +96,21 @@ const QuestionCard = props => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    console.log(currentQuestion)
     let gameUsers = [currentGame.user1s[0], currentGame.user2s[0]]
     let opponent = gameUsers.find(user => user.id !== currentUser.id)
     let opponentName = upperCaseName(opponent.name)
     return(
         <>
         <div>
-            <h4 className="scores">Your Score: {currentUser.score}</h4>
-            <h4 className="scores">{opponentName}'s Score: {opponent.score}</h4>
+            <div className="scores">
+            <h3 id="question-card-player-score">Your Score: {currentUser.score}</h3>
+            <h3 id="question-card-opponent-score">{opponentName}'s Score: {opponent.score}</h3>
+            </div>
             <h1>Question: {currentQuestion.prompt}</h1>
-            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.a}</h3>
-            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.b}</h3>
-            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.c}</h3>
-            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>{currentQuestion.d}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>♥ {currentQuestion.a}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>♥ {currentQuestion.b}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>♥ {currentQuestion.c}</h3>
+            <h3 className="answer-options" onClick={(e) => selectAnswer(e)}>♥ {currentQuestion.d}</h3>
         </div>
         <div>
             <button className="myButton myButton-2" onClick={() => backToWheel()}>Back to Wheel</button>

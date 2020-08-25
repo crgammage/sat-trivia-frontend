@@ -91,7 +91,6 @@ const GameContainer = props => {
 
 const msp = state => {
     return {
-        currentGame: state.currentGame,
         currentUser: state.currentUser,
         questions: state.questions,
         users: state.users
