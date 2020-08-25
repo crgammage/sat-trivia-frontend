@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import GameCard from './GameCard.js'
 import * as action from '../Reducers/actions'
@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom'
 
 const PlayerCard = props => {
     let { currentUser, handleLogin, updateUser } = props
-    let [ involvedGames, setInvolvedGames] = useState([])
             
 
     const currentGames = () => {
@@ -59,9 +58,6 @@ const PlayerCard = props => {
           <GameCard key={game.id} {...game}/>
           )))
       }
-    }
-    const upperCaseUsersName = string => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
     }
     
     return (

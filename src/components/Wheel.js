@@ -1,11 +1,14 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import * as action from '../Reducers/actions'
-import QuestionCard from './QuestionCard'
 import { withRouter } from 'react-router-dom'
 
 const Wheel = props => {
-    let { currentGame, handleNewGame, updateGames, currentUser, handleCurrentQuestion, questionCompleted, completedQuestions, resetCompletedQuestions} = props
+    let { currentGame,
+        handleNewGame,
+        updateGames,
+        currentUser,
+        handleCurrentQuestion } = props
     
 
     const getQuestion = () => {

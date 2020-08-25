@@ -18,11 +18,11 @@ const reducer = (prevState=initialState, action) => {
         case 'FETCH_USERS':
             return {...prevState, users: action.payload.value}
         case 'NEW_USER':
-            return {...prevState, loggedIn: true, currentUser: action.payload.value, users: [...prevState.users, action.payload.value]}
+            return {...prevState, currentUser: action.payload.value, users: [...prevState.users, action.payload.value]}
         case 'LOGIN':
-            return {...prevState, loggedIn: true, currentUser: action.payload.value}
+            return {...prevState, currentUser: action.payload.value}
         case 'LOGOUT':
-            return {...prevState, loggedIn: false, currentUser: {}}
+            return {...prevState, currentUser: {}}
         case 'NEW_GAME':
             return {...prevState, currentGame: action.payload.value}
         case 'FETCH_QUESTIONS':

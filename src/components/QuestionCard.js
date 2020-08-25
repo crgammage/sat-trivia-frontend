@@ -4,7 +4,13 @@ import * as action from '../Reducers/actions'
 import '../App.css'
 
 const QuestionCard = props => {
-    let { currentGame, handleNewGame, currentQuestion, currentUser, updateUser, updateGames, handleLogin } = props
+    let { currentGame,
+        handleNewGame,
+        currentQuestion,
+        currentUser,
+        updateUser,
+        updateGames,
+        handleLogin } = props
 
     const backToWheel = () => {
         props.history.push('/wheel')
@@ -90,7 +96,6 @@ const QuestionCard = props => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    console.log(currentQuestion)
     let gameUsers = [currentGame.user1s[0], currentGame.user2s[0]]
     let opponent = gameUsers.find(user => user.id !== currentUser.id)
     let opponentName = upperCaseName(opponent.name)

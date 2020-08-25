@@ -1,7 +1,6 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import PlayerContainer from './PlayerContainer'
 import GameContainer from './GameContainer'
-import LogOutForm from './LogOutForm'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 

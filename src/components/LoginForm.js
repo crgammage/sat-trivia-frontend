@@ -49,13 +49,6 @@ const LoginForm = (props) =>  {
         )
 }
 
-const msp = state => {
-    return {
-        users: state.users,
-        currentUser: state.currentUser
-    }
-}
-
 const mdp = dispatch => {
     return {
         handleLogin: (user) => dispatch(action.handleLogin(user)),
@@ -63,4 +56,4 @@ const mdp = dispatch => {
     }
 }
 
-export default withRouter(connect(msp, mdp)(LoginForm))
+export default withRouter(connect(null, mdp)(LoginForm))

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import * as action from '../Reducers/actions'
 import { withRouter } from "react-router"
@@ -53,7 +53,6 @@ const GameCard = props => {
 const msp = state => {
     return {
         games: state.games,
-        completedQuestions: state.completedQuestions,
         currentUser: state.currentUser
     }
 }

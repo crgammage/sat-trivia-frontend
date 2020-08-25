@@ -1,12 +1,8 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import PlayerCard from './PlayerCard.js'
-import { connect } from 'react-redux'
-import * as action from '../Reducers/actions'
 
 const PlayerContainer = props => {
-    let {currentUser} = props
 
-    console.log(currentUser)
     return (
         <div>
             <PlayerCard />
@@ -15,16 +11,4 @@ const PlayerContainer = props => {
     )
 }
 
-const msp = state => {
-    return {
-        currentUser: state.currentUser
-    }
-}
-
-const mdp = dispatch => {
-    return {
-        handleLogin: (updatedUser) => dispatch(action.handleLogin(updatedUser))
-    }
-}
-
-export default connect(msp, mdp)(PlayerContainer)
+export default PlayerContainer
